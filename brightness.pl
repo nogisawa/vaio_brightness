@@ -73,6 +73,15 @@ if( $param eq 'up' ){
 }elsif( $param =~ /\d{1,16}/ && 0 <= $param && $param <= $step  ){
 
     $new_step = $param;
+
+}elsif( $param =~ /^\d{1,16}%$/ ){
+
+    $param =~ /(^\d{1,3})%$/;
+    my $new_step_percent = $1;
+    print "( $new_step_percent  / 100 )\n";
+    $new_step = $brightness[$step-1] * ( $new_step_percent  / 100 );
+
+    if( $new_step =~ /^(\d+)\.\d+$/  ){ $new_step = $1 }
     
 }else{
 
@@ -85,7 +94,7 @@ if( $param eq 'up' ){
 
 if( $new_step != $now_value  ){
 
-    print "writing new value.\n";
+    print "writing new value.($new_step)\n";
     print FH "$new_step";
     
 }
